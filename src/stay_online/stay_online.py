@@ -8,14 +8,22 @@ from pyautogui import press
 from pynput import mouse
 
 
-def simulate_typing():
+def simulate_typing(min_num_words:int=1, max_num_words:int=10, show_timestamp:bool=False):
+    """
+    Simulate typing words with random slight paused in between each characters and spaces.
+    
+    :param int min_num_words: Minimum number of words to type.
+    :param int max_num_words: Maximum number of words to type.
+    :param bool show_timestamp: Type out the timestamp.
+    """
     print(f"Running derp")
     file_path = os.path.join(os.path.dirname(__file__), 'word_file.txt')
     with open(file_path, 'r') as word_file:
-        n_words = random.randrange(10) + 1
-        word_list = [f"{datetime.now().time()}"]
+        n_words = random.randrange(min_num_words, max_num_words)
 
-        word_list.extend(random.sample(word_file.read().splitlines(), n_words))
+        word_list = random.sample(word_file.read().splitlines(), n_words)
+        if show_timestamp:
+            word_list.insert(0, f"{datetime.now().time()}")
         print(f"Typing: {word_list}")
         for word in word_list:
             for letter in word:
@@ -64,22 +72,35 @@ class CursorUtils:
         return
 
 
-def stay_online():
+def stay_online(
+        stop_hhmm:str='1800', 
+        min_delay_seconds:int=120, 
+        max_delay_seconds:int=180, 
+        min_num_words:int=1, 
+        max_num_words:int=10,
+        show_timestamp:bool=False
+        ):
+    """
+    Simulate fake movement and fake keyboard typing.
+
+    :param str stop_hhmm: Time to stop running the simulation in HHMM format, example 1700.
+    :param int min_delay_seconds: Minimum delay seconds.
+    :param int max_delay_seconds: Maximum delay seconds.
+    :param int min_num_words: Minimum number of words to type.
+    :param int max_num_words: Maximum number of words to type.
+    :param bool show_timestamp: Type out the timestamp.
+    """
     cursor_location_object = CursorUtils()
     cursor_location = cursor_location_object.get_cursor_location()
     time.sleep(3)
     while True:
         current_time = datetime.now().time()
         print(f"Current time is: {datetime.now().time()}")
-        if current_time > datetime.strptime("1800", "%H%M").time():
+        if current_time > datetime.strptime(stop_hhmm, "%H%M").time():
             break
         try:
             cursor_location_object.random_cursor_movement(*cursor_location)
-            simulate_typing()
-            time.sleep(random.randrange(200) + 120)
+            simulate_typing(min_num_words=min_num_words, max_num_words=max_num_words, show_timestamp=show_timestamp)
+            time.sleep(random.randrange(min_delay_seconds, max_delay_seconds))
         except:
             pass
-
-
-if __name__ == '__main__':
-    stay_online()
