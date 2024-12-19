@@ -12,8 +12,8 @@ def simulate_typing(min_num_words:int=1, max_num_words:int=10, show_timestamp:bo
     """
     Simulate typing words with random slight paused in between each characters and spaces.
     
-    :param int min_num_words: Minimum number of words to type.
-    :param int max_num_words: Maximum number of words to type.
+    :param int min_num_words: Minimum number of words to type per line.
+    :param int max_num_words: Maximum number of words to type per line.
     :param bool show_timestamp: Type out the timestamp.
     """
     print(f"Running derp")
@@ -47,7 +47,7 @@ class CursorUtils:
             return False
 
     def get_cursor_location(self):
-        print(f"Place cursor at clicking position")
+        print(f"Place cursor at clicking position and left click once.")
         with mouse.Listener(on_click=self.on_click) as listener:
             listener.join()
         controller = mouse.Controller()
@@ -73,7 +73,7 @@ class CursorUtils:
 
 
 def stay_online(
-        stop_hhmm:str='1800', 
+        stop_hhmm:str=None, 
         min_delay_seconds:int=120, 
         max_delay_seconds:int=180, 
         min_num_words:int=1, 
@@ -84,23 +84,37 @@ def stay_online(
     Simulate fake movement and fake keyboard typing.
 
     :param str stop_hhmm: Time to stop running the simulation in HHMM format, example 1700.
-    :param int min_delay_seconds: Minimum delay seconds.
-    :param int max_delay_seconds: Maximum delay seconds.
-    :param int min_num_words: Minimum number of words to type.
-    :param int max_num_words: Maximum number of words to type.
+    :param int min_delay_seconds: Minimum delay seconds between each new line.
+    :param int max_delay_seconds: Maximum delay seconds between each new line.
+    :param int min_num_words: Minimum number of words to type per line.
+    :param int max_num_words: Maximum number of words to type per line.
     :param bool show_timestamp: Type out the timestamp.
     """
+    print(f"""
+Remeber to provide the optional parameters:
+:param str stop_hhmm: Time to stop running the simulation in HHMM format, example 1700.
+:param int min_delay_seconds: Minimum delay seconds between each new line.
+:param int max_delay_seconds: Maximum delay seconds between each new line.
+:param int min_num_words: Minimum number of words to type per line.
+:param int max_num_words: Maximum number of words to type per line.
+:param bool show_timestamp: Type out the timestamp.
+""")
     cursor_location_object = CursorUtils()
     cursor_location = cursor_location_object.get_cursor_location()
     time.sleep(3)
     while True:
         current_time = datetime.now().time()
         print(f"Current time is: {datetime.now().time()}")
-        if current_time > datetime.strptime(stop_hhmm, "%H%M").time():
-            break
+        if stop_hhmm:
+            if current_time > datetime.strptime(stop_hhmm, "%H%M").time():
+                break
         try:
             cursor_location_object.random_cursor_movement(*cursor_location)
             simulate_typing(min_num_words=min_num_words, max_num_words=max_num_words, show_timestamp=show_timestamp)
             time.sleep(random.randrange(min_delay_seconds, max_delay_seconds))
         except:
             pass
+
+if __name__ == '__main__':
+    stay_online()
+    
