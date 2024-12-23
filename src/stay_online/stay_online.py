@@ -14,7 +14,7 @@ def simulate_typing(min_num_words:int=1, max_num_words:int=10, show_timestamp:bo
     
     :param int min_num_words: Minimum number of words to type per line.
     :param int max_num_words: Maximum number of words to type per line.
-    :param bool show_timestamp: Type out the timestamp.
+    :param bool show_timestamp: Type out the timestamp in front of the line to keep track of the time.
     """
     print(f"Running derp")
     file_path = os.path.join(os.path.dirname(__file__), 'word_file.txt')
@@ -73,7 +73,7 @@ class CursorUtils:
 
 
 def stay_online(
-        stop_hhmm:str=None, 
+        stop_hhmm:str='', 
         min_delay_seconds:int=120, 
         max_delay_seconds:int=180, 
         min_num_words:int=1, 
@@ -83,16 +83,16 @@ def stay_online(
     """
     Simulate fake movement and fake keyboard typing.
 
-    :param str stop_hhmm: Time to stop running the simulation in HHMM format, example 1700.
+    :param str stop_hhmm: Automatically stop the simulation at the provided time, example '1700'.
     :param int min_delay_seconds: Minimum delay seconds between each new line.
     :param int max_delay_seconds: Maximum delay seconds between each new line.
     :param int min_num_words: Minimum number of words to type per line.
     :param int max_num_words: Maximum number of words to type per line.
-    :param bool show_timestamp: Type out the timestamp.
+    :param bool show_timestamp: Type out the timestamp in front of the line to keep track of the time.
     """
     print(f"""
 Remeber to provide the optional parameters:
-:param str stop_hhmm: Time to stop running the simulation in HHMM format, example 1700.
+:param str stop_hhmm: Automatically stop the simulation at the provided time, example '1700'.
 :param int min_delay_seconds: Minimum delay seconds between each new line.
 :param int max_delay_seconds: Maximum delay seconds between each new line.
 :param int min_num_words: Minimum number of words to type per line.
@@ -105,16 +105,15 @@ Remeber to provide the optional parameters:
     while True:
         current_time = datetime.now().time()
         print(f"Current time is: {datetime.now().time()}")
-        if stop_hhmm:
-            if current_time > datetime.strptime(stop_hhmm, "%H%M").time():
-                break
+        if stop_hhmm != '':
+            try:
+                if current_time > datetime.strptime(stop_hhmm, "%H%M").time():
+                    break
+            except Exception as e:
+                raise Exception(f'Please provide the correct time value in hhmm format.')
         try:
             cursor_location_object.random_cursor_movement(*cursor_location)
             simulate_typing(min_num_words=min_num_words, max_num_words=max_num_words, show_timestamp=show_timestamp)
             time.sleep(random.randrange(min_delay_seconds, max_delay_seconds))
         except:
             pass
-
-if __name__ == '__main__':
-    stay_online()
-    
