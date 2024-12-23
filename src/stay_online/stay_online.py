@@ -14,7 +14,7 @@ def simulate_typing(min_num_words:int=1, max_num_words:int=10, show_timestamp:bo
     
     :param int min_num_words: Minimum number of words to type per line.
     :param int max_num_words: Maximum number of words to type per line.
-    :param bool show_timestamp: Type out the timestamp.
+    :param bool show_timestamp: Type out the timestamp in front of the line to keep track of the time.
     """
     print(f"Running derp")
     file_path = os.path.join(os.path.dirname(__file__), 'word_file.txt')
@@ -83,16 +83,16 @@ def stay_online(
     """
     Simulate fake movement and fake keyboard typing.
 
-    :param str stop_hhmm: Time to stop running the simulation in HHMM format, example '1700'.
+    :param str stop_hhmm: Automatically stop the simulation at the provided time, example '1700'.
     :param int min_delay_seconds: Minimum delay seconds between each new line.
     :param int max_delay_seconds: Maximum delay seconds between each new line.
     :param int min_num_words: Minimum number of words to type per line.
     :param int max_num_words: Maximum number of words to type per line.
-    :param bool show_timestamp: Type out the timestamp.
+    :param bool show_timestamp: Type out the timestamp in front of the line to keep track of the time.
     """
     print(f"""
 Remeber to provide the optional parameters:
-:param str stop_hhmm: Time to stop running the simulation in HHMM format, example '1700'.
+:param str stop_hhmm: Automatically stop the simulation at the provided time, example '1700'.
 :param int min_delay_seconds: Minimum delay seconds between each new line.
 :param int max_delay_seconds: Maximum delay seconds between each new line.
 :param int min_num_words: Minimum number of words to type per line.
