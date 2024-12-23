@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stay_online"
-version = "0.1.7"
+version = "0.1.8"
 authors = [{ name="Chiaope" }]
 description = "Simulate fake mouse and keyboard actions to fake staying online"
 readme = "README.md"
