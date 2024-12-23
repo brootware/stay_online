@@ -117,7 +117,3 @@ Remeber to provide the optional parameters:
             time.sleep(random.randrange(min_delay_seconds, max_delay_seconds))
         except:
             pass
-
-if __name__ == '__main__':
-    stay_online()
-    
