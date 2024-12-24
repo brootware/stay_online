@@ -21,3 +21,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/Chiaope/stay_online"
+
+[project.scripts]
+stayonline = "stay_online.cli:stay_online"
+
