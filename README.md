@@ -1,19 +1,15 @@
 # Simulate fake mouse movement and fake keyboard typing.
 
 ## How to use
-### Start by running this command
-```
-from stay_online import stay_online
+### Programtically
+#### Default Settings
+```python
+from stay_online.stay_online import stay_online
 stay_online()
 ```
-Once the Python program is initiated, a prompt will appear, requesting you to select the area where you want the cursor to move. 
 
-This designated location will serve as the point where the cursor will autonomously navigate and perform left-click actions at specified intervals.
-```
-Place cursor at clicking position and left click once.
-```
-## Default optional values
-```
+#### Optional Parameters Values
+```python
 stay_online(
         stop_hhmm:str='', 
         min_delay_seconds:int=120, 
@@ -22,6 +18,37 @@ stay_online(
         max_num_words:int=10,
         show_timestamp:bool=False
         )
+```
+### CLI
+#### Default Settings
+```bash
+stay-online
+```
+#### Optional Parameters
+```bash
+--stop STOP_HHMM
+Automatically stop the simulation at the time, example '1700'. Default: Empty
+
+--min_delay MIN_DELAY_SECONDS
+Minimum delay seconds between each new line. Default: 120
+
+--max_delay MAX_DELAY_SECONDS
+Maximum delay seconds between each new line. Default: 180
+
+--min_words MIN_NUM_WORDS
+Minimum number of words to type per line. Default: 1
+
+--max_words MAX_NUM_WORDS
+Maximum number of words to type per line. Default: 10
+
+--timestamp SHOW_TIMESTAMP
+Type out the timestamp in front of the line to keep track of the time. Default: False
+```
+Once the Python program is initiated, a prompt will appear, requesting you to select the area where you want the cursor to move. 
+
+This designated location will serve as the point where the cursor will autonomously navigate and perform left-click actions at specified intervals.
+```bash
+Place cursor at clicking position and left click once.
 ```
 ### Parameters
 ```
