@@ -22,6 +22,7 @@ stay_online(
 ### CLI
 #### Default Settings
 ```bash
+pipx install stay-online
 stay-online
 ```
 #### Optional Parameters
