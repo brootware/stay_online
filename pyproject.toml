@@ -1,4 +1,4 @@
-.[build-system]
+[build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
@@ -23,4 +23,5 @@ dependencies = [
 Homepage = "https://github.com/Chiaope/stay_online"
 
 [project.scripts]
-sto = src/stay_online:stay_online.py
+stayonline = "stay_online.cli:stay_online"
+
