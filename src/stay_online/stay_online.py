@@ -7,16 +7,20 @@ import pyautogui
 from pyautogui import press
 from pynput import mouse
 
+from stay_online.constants import DEFAULT_MAX_DELAY_SECONDS, DEFAULT_MAX_NUM_WORDS, DEFAULT_MIN_DELAY_SECONDS, DEFAULT_MIN_NUM_WORDS, DEFAULT_SHOW_TIMESTAMP, DEFAULT_STOP_HHMM, HELP_MAX_DELAY_SECONDS, HELP_MAX_NUM_WORDS, HELP_MIN_DELAY_SECONDS, HELP_MIN_NUM_WORDS, HELP_SHOW_TIMESTAMP, HELP_STOP_HHMM
 
-def simulate_typing(min_num_words:int=1, max_num_words:int=10, show_timestamp:bool=False):
-    """
+
+def simulate_typing(
+        min_num_words:int=DEFAULT_MIN_NUM_WORDS, 
+        max_num_words:int=DEFAULT_MAX_NUM_WORDS, 
+        show_timestamp:bool=DEFAULT_SHOW_TIMESTAMP
+        ):
+    f"""
     Simulate typing words with random slight paused in between each characters and spaces.
-    
-    :param int min_num_words: Minimum number of words to type per line.
-    :param int max_num_words: Maximum number of words to type per line.
-    :param bool show_timestamp: Type out the timestamp in front of the line to keep track of the time.
+    :param int min_num_words: {HELP_MIN_NUM_WORDS}
+    :param int max_num_words: {HELP_MAX_NUM_WORDS}
+    :param bool show_timestamp: {HELP_SHOW_TIMESTAMP}
     """
-    print(f"Running derp")
     file_path = os.path.join(os.path.dirname(__file__), 'word_file.txt')
     with open(file_path, 'r') as word_file:
         n_words = random.randrange(min_num_words, max_num_words)
@@ -73,31 +77,40 @@ class CursorUtils:
 
 
 def stay_online(
-        stop_hhmm:str='', 
-        min_delay_seconds:int=120, 
-        max_delay_seconds:int=180, 
-        min_num_words:int=1, 
-        max_num_words:int=10,
-        show_timestamp:bool=False
+        stop_hhmm:str=DEFAULT_STOP_HHMM, 
+        min_delay_seconds:int=DEFAULT_MIN_DELAY_SECONDS, 
+        max_delay_seconds:int=DEFAULT_MAX_DELAY_SECONDS, 
+        min_num_words:int=DEFAULT_MIN_NUM_WORDS, 
+        max_num_words:int=DEFAULT_MAX_NUM_WORDS,
+        show_timestamp:bool=DEFAULT_SHOW_TIMESTAMP
         ):
-    """
+    f"""
     Simulate fake movement and fake keyboard typing.
 
-    :param str stop_hhmm: Automatically stop the simulation at the provided time, example '1700'.
-    :param int min_delay_seconds: Minimum delay seconds between each new line.
-    :param int max_delay_seconds: Maximum delay seconds between each new line.
-    :param int min_num_words: Minimum number of words to type per line.
-    :param int max_num_words: Maximum number of words to type per line.
-    :param bool show_timestamp: Type out the timestamp in front of the line to keep track of the time.
+    :param str stop_hhmm: {HELP_STOP_HHMM}
+    :param int min_delay_seconds: {HELP_MIN_DELAY_SECONDS}
+    :param int max_delay_seconds: {HELP_MAX_DELAY_SECONDS}
+    :param int min_num_words: {HELP_MIN_NUM_WORDS}
+    :param int max_num_words: {HELP_MAX_NUM_WORDS}
+    :param bool show_timestamp: {HELP_SHOW_TIMESTAMP}
     """
     print(f"""
 Remeber to provide the optional parameters:
-:param str stop_hhmm: Automatically stop the simulation at the provided time, example '1700'.
-:param int min_delay_seconds: Minimum delay seconds between each new line.
-:param int max_delay_seconds: Maximum delay seconds between each new line.
-:param int min_num_words: Minimum number of words to type per line.
-:param int max_num_words: Maximum number of words to type per line.
-:param bool show_timestamp: Type out the timestamp.
+    :param str stop_hhmm: {HELP_STOP_HHMM}
+    :param int min_delay_seconds: {HELP_MIN_DELAY_SECONDS}
+    :param int max_delay_seconds: {HELP_MAX_DELAY_SECONDS}
+    :param int min_num_words: {HELP_MIN_NUM_WORDS}
+    :param int max_num_words: {HELP_MAX_NUM_WORDS}
+    :param bool show_timestamp: {HELP_SHOW_TIMESTAMP}
+""")
+    
+    print(f"""
+Stay Online Stop: {stop_hhmm if stop_hhmm != '' else 'Never'}
+Min Delay Seconds: {min_delay_seconds}
+Max Delay Seconds: {max_delay_seconds}
+Min Number of Words: {min_num_words}
+Max Number of Words: {max_num_words}
+Show Timestamp: {show_timestamp}
 """)
     cursor_location_object = CursorUtils()
     cursor_location = cursor_location_object.get_cursor_location()
@@ -115,5 +128,5 @@ Remeber to provide the optional parameters:
             cursor_location_object.random_cursor_movement(*cursor_location)
             simulate_typing(min_num_words=min_num_words, max_num_words=max_num_words, show_timestamp=show_timestamp)
             time.sleep(random.randrange(min_delay_seconds, max_delay_seconds))
-        except:
-            pass
+        except Exception as e:
+            print(f"Something went wrong: {e}")
